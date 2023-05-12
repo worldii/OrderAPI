@@ -3,8 +3,8 @@ package com.example.demo.orders;
 import java.util.List;
 
 public interface OrderRepository {
-    Order findBySeq(Long seq);
-    List<Order> findAll();
+    Orders findBySeq(Long seq);
+    List<Orders> findAll();
     OrderResponse findWithReviewById(Long id);
-    boolean update (Order order);
+    boolean update (Orders order);
 }

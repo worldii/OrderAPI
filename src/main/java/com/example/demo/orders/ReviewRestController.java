@@ -22,8 +22,6 @@ public class ReviewRestController {
     public Map<String, Object> review (@RequestBody ReviewRequest reviewRequest) {
 
         Map<String, Object> result = new HashMap<>();
-
-
         return result;
     }
 

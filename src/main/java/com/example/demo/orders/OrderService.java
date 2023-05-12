@@ -12,11 +12,11 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public List<Order> findAll() {
+    public List<Orders> findAll() {
         return orderRepository.findAll();
     }
 
-    public Order findById(Long id) {
+    public Orders findById(Long id) {
         return orderRepository.findBySeq(id);
     }
 
@@ -25,7 +25,7 @@ public class OrderService {
     }
 
     public boolean accept(Long id) {
-        Order order = orderRepository.findBySeq(id);
+        Orders order = orderRepository.findBySeq(id);
         if (order.getState()!= OrderState.COMPLETED) {
             return false;
             //    throw new IllegalStateException("이미 처리된 주문입니다.");
@@ -36,7 +36,7 @@ public class OrderService {
         return true;
     }
     public boolean reject(Long id) {
-        Order order = orderRepository.findBySeq(id);
+        Orders order = orderRepository.findBySeq(id);
         if (order.getState()!= OrderState.REQUESTED) {
             order.setState(OrderState.REJECTED);
             orderRepository.update(order);
@@ -46,7 +46,7 @@ public class OrderService {
     }
 
     public boolean shipping(Long id) {
-        Order order = orderRepository.findBySeq(id);
+        Orders order = orderRepository.findBySeq(id);
         if (order.getState()== OrderState.ACCEPTED) {
             order.setState(OrderState.SHIPPING);
             orderRepository.update(order);
@@ -57,7 +57,7 @@ public class OrderService {
     }
 
     public boolean complete(Long id) {
-        Order order = orderRepository.findBySeq(id);
+        Orders order = orderRepository.findBySeq(id);
         if (order.getState()== OrderState.SHIPPING) {
             order.setState(OrderState.COMPLETED);
             orderRepository.update(order);

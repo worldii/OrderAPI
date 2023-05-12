@@ -6,7 +6,7 @@ public class OrderResponse {
 
     private long  seq;
     private long productId;
-    private Review review;
+    private ReviewDto review;
     private OrderState state;
     private String requestMessage;
     private String rejectMessage;
@@ -24,7 +24,33 @@ public class OrderResponse {
         this.createdAt = createdAt;
     }
 
-    public void setReview(Review review) {
+    static class ReviewDto {
+       // seq productId content createAt
+         private long seq;
+         private long productId;
+         private String content;
+         private LocalDateTime createAt;
+         ReviewDto(long seq, long productId, String content, LocalDateTime createAt){
+                this.seq= seq;
+                this.productId= productId;
+                this.content= content;
+                this.createAt= createAt;
+         }
+
+         public void setSeq(long seq) {
+                    this.seq = seq;
+         }
+         public void setProductId(long productId) {
+                            this.productId = productId;
+            }
+            public void setContent(String content) {
+                            this.content = content;
+            }
+            public void setCreateAt(LocalDateTime createAt) {
+                            this.createAt = createAt;
+            }
+    }
+    public void setReviewDto(ReviewDto review) {
         this.review = review;
     }
 
@@ -71,6 +97,7 @@ public class OrderResponse {
             this.createdAt = createdAt;
             return this;
         }
+
         public OrderResponse build() {
             OrderResponse orderResponse = new OrderResponse(seq, productId, state, requestMessage, rejectMessage, completedAt, rejectedAt, createdAt);
             return orderResponse;

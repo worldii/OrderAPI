@@ -1,6 +1,7 @@
 package com.example.demo.orders;
 
 import com.example.demo.utils.DateTimeUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -18,9 +19,9 @@ public class JdbcOrderRepository implements OrderRepository{
     }
 
     @Override
-    public Order findBySeq(Long seq) {
+    public Orders findBySeq(Long seq) {
 
-        List<Order> results= jdbcTemplate.query("select * from orders where seq=?", mapper, seq);
+        List<Orders> results= jdbcTemplate.query("select * from orders where seq=?", mapper, seq);
         return ofNullable(results)
                 .filter(o -> !o.isEmpty())
                 .map(o -> o.get(0))
@@ -28,7 +29,7 @@ public class JdbcOrderRepository implements OrderRepository{
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Orders> findAll() {
         return jdbcTemplate.query("select * from orders", mapper);
     }
 
@@ -46,14 +47,16 @@ public class JdbcOrderRepository implements OrderRepository{
     }
 
     @Override
-    public boolean update(Order order) {
+    public boolean update(Orders order) {
         String sql = "update orders set state=?, request_msg=?, reject_msg=?, completed_at=?, rejected_at=? where seq=?";
         return jdbcTemplate.update(sql, order.getState().toString(), order.getRequestMsg(), order.getRejectMsg(), order.getCompletedAt(), order.getRejectedAt(), order.getSeq()) > 0;
     }
 
 
-    static RowMapper<Order> mapper = (rs, rowNum) ->
-            new Order.Builder()
+
+
+    static RowMapper<Orders> mapper = (rs, rowNum) ->
+            new Orders.Builder()
                     .seq(rs.getLong("seq"))
                     .userSeq(rs.getLong("userSeq"))
                     .productSeq(rs.getLong("productSeq"))
@@ -77,10 +80,9 @@ public class JdbcOrderRepository implements OrderRepository{
                 .rejectedAt(DateTimeUtils.dateTimeOf(rs.getTimestamp("rejected_at")))
                 .createdAt(DateTimeUtils.dateTimeOf(rs.getTimestamp("create_at")))
                 .build();
-        orderResponse.setReview(new Review.Builder()
-                .content(rs.getString("content"))
-                .createAt(DateTimeUtils.dateTimeOf(rs.getTimestamp("create_at")))
-                .build());
+        OrderResponse.ReviewDto reviewDto = new OrderResponse.ReviewDto(rs.getLong("review_seq"), rs.getLong("product_seq"), rs.getString("content"), DateTimeUtils.dateTimeOf(rs.getTimestamp("create_at")));
+        orderResponse.setReviewDto(reviewDto);
         return orderResponse;
     };
+
 }

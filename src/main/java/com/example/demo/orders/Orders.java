@@ -2,7 +2,7 @@ package com.example.demo.orders;
 
 import java.time.LocalDateTime;
 
-public class Order {
+public class Orders {
     // seq, userSeq, productSeq, reviewSeq, state(enum), requestMsg, rejectMsg, completedAt, rejectedAt, createdAt
     private Long seq;
     private Long userSeq;
@@ -15,7 +15,7 @@ public class Order {
     private LocalDateTime rejectedAt;
     private LocalDateTime createdAt;
 
-    public Order(Long seq, Long userSeq, Long productSeq, Long reviewSeq, OrderState state, String requestMsg, String rejectMsg, LocalDateTime completedAt, LocalDateTime rejectedAt, LocalDateTime createdAt) {
+    public Orders(Long seq, Long userSeq, Long productSeq, Long reviewSeq, OrderState state, String requestMsg, String rejectMsg, LocalDateTime completedAt, LocalDateTime rejectedAt, LocalDateTime createdAt) {
         this.seq = seq;
         this.userSeq = userSeq;
         this.productSeq = productSeq;
@@ -122,8 +122,8 @@ public class Order {
             return this;
         }
 
-        Order build() {
-            return new Order(seq, userSeq, productSeq, reviewSeq, state, requestMsg, rejectMsg, completedAt, rejectedAt, createdAt);
+        Orders build() {
+            return new Orders(seq, userSeq, productSeq, reviewSeq, state, requestMsg, rejectMsg, completedAt, rejectedAt, createdAt);
         }
 
     }

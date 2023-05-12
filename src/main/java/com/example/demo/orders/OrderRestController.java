@@ -21,7 +21,7 @@ public class OrderRestController {
     @Transactional(readOnly = true)
     public ResponseEntity<Map<String, Object>> findAll() {
         // 주문 목록을 가져온다.
-        List<Order> orderList = orderService.findAll();
+        List<Orders> orderList = orderService.findAll();
         Map<String, Object> result = new HashMap<>();
         result.put("result", orderList);
         return ResponseEntity.ok(result);
